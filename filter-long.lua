@@ -1,3 +1,13 @@
+function Meta(meta)
+  meta.documentclass = pandoc.MetaInlines({pandoc.Str('report')})
+  table.insert(meta.geometry, pandoc.MetaInlines({pandoc.Str("landscape")}))
+  return meta
+end
+
+--return {
+--  { Meta = Meta }
+--}
+
 function Table(el)
   -- Convert to SimpleTable
   local simple_table = pandoc.utils.to_simple_table(el)
@@ -10,8 +20,7 @@ function Table(el)
     local sub_counter = 0
     
     for i, row in ipairs(rows) do
-      table.remove(row, 4)
-      table.remove(row, 2)
+      --table.remove(row, 4)
 
       local first_cell_content = pandoc.utils.stringify(row[1])
 
@@ -39,7 +48,6 @@ function Table(el)
   local function remove_fourth_column_from_headers(headers)
     local new_headers = {}
       table.remove(headers, 4)
-      table.remove(headers, 2)
     return headers
   end
 
@@ -50,7 +58,7 @@ function Table(el)
     simple_table.headers = remove_fourth_column_from_headers(simple_table.headers)
   end
 
-  simple_table.widths = {0.05, 0.95}
+  simple_table.widths = {0.03, 0.07, 0.4, 0.5}
 
   return pandoc.utils.from_simple_table(simple_table)
 end
